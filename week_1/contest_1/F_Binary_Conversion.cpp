@@ -5,38 +5,50 @@ using namespace std;
 int main()
 {
     int T;
-    cin >> T; // Number of test cases
+    cin >> T;
 
     while (T--)
     {
         int N, K;
-        cin >> N >> K; // Length of the string and number of operations
+        cin >> N >> K;
         string S, T;
-        cin >> S >> T; // Binary strings S and T
+        cin >> S >> T;
 
-        int mismatches = 0;
-
-        // Count the number of mismatched positions
-        for (int i = 0; i < N; i++)
+        // Count discrepancies
+        int diff = 0;
+        for (int i = 0; i < N; ++i)
         {
             if (S[i] != T[i])
             {
-                mismatches++;
+                diff++;
             }
         }
 
-        // Check the conditions for conversion
-        if (mismatches > K)
+        // Minimum swaps needed
+        int min_swaps = (diff + 1) / 2; // Ceiling of diff / 2
+
+        // Check if it's possible to achieve the transformation with exactly K swaps
+        if (diff == 0)
         {
-            cout << "NO" << endl; // Too many mismatches
+            // If no differences, we can only make swaps if K is even (swapping back)
+            cout << (K % 2 == 0 ? "YES" : "NO") << endl;
         }
-        else if (mismatches == K || (K - mismatches) % 2 == 0)
+        else if (min_swaps > K)
         {
-            cout << "YES" << endl; // Exact matches or can use extra even swaps
+            // Not enough swaps
+            cout << "NO" << endl;
         }
         else
         {
-            cout << "NO" << endl; // Odd remaining swaps when mismatches < K
+            // Check the parity
+            if ((K % 2) == (diff % 2))
+            {
+                cout << "YES" << endl;
+            }
+            else
+            {
+                cout << "NO" << endl;
+            }
         }
     }
 
