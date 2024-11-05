@@ -1,11 +1,10 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
     int t;
     cin >> t;
 
@@ -26,7 +25,7 @@ int main()
         string target = "1543";
         int count = 0;
 
-        for (int layer = 0; layer < n / 2; layer++)
+        for (int layer = 0; layer <= min(n, m) / 2; layer++)
         {
             string strSt = "";
 
@@ -41,9 +40,12 @@ int main()
                 strSt += vc[i][m - layer - 1];
             }
             // Bottom row (right to left)
-            for (int j = m - layer - 1; j >= layer; j--)
+            if (n - layer - 1 > layer)
             {
-                strSt += vc[n - layer - 1][j];
+                for (int j = m - layer - 1; j >= layer; j--)
+                {
+                    strSt += vc[n - layer - 1][j];
+                }
             }
             // Left column (bottom to top)
             for (int i = n - layer - 2; i > layer; i--)
@@ -53,11 +55,11 @@ int main()
 
             string finalStr = strSt + strSt.substr(0, 3);
 
-            int pos = finalStr.find(target);
-            while (pos != string::npos && pos < strSt.size())
+            int pos = 0;
+            while ((pos = finalStr.find(target, pos)) != string::npos)
             {
                 count++;
-                pos = finalStr.find(target, pos + 1);
+                pos++;
             }
         }
 
